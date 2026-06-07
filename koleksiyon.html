@@ -36,8 +36,7 @@
         </div>
     </div>
 
-    <div class="vitrin" id="koleksiyonGrid">
-        </div>
+    <div class="vitrin" id="koleksiyonGrid"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
@@ -58,37 +57,32 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Ürün ve Resim eşleşmesi
         const urunHavuzu = {
-            'arch01': { baslik: 'ARCH_01', fiyat: 40 },
-            'vamp': { baslik: 'VAMP_JACKET', fiyat: 60 },
-            'boots': { baslik: 'SABER_BOOTS', fields: 30 },
-            'hoodie': { baslik: 'DARK_HOODIE', fiyat: 50 }
+            'arch01': { baslik: 'ARCH_01', fiyat: 40, resim: 'vest.jpg' },
+            'vamp': { baslik: 'VAMP_JACKET', fiyat: 60, resim: 'jacket.jpg' },
+            'boots': { baslik: 'SABER_BOOTS', fiyat: 30, resim: 'boots.jpg' },
+            'hoodie': { baslik: 'DARK_HOODIE', fiyat: 50, resim: 'hoodie.jpg' }
         };
 
         let mevcutBakiye = 0;
         let alinanlarListesi = [];
         let uid = "";
-
         const grid = document.getElementById('koleksiyonGrid');
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 uid = user.uid;
-                const userDoc = doc(db, "kullanicilar", uid);
-                
-                getDoc(userDoc).then((snapshot) => {
+                getDoc(doc(db, "kullanicilar", uid)).then((snapshot) => {
                     if (snapshot.exists()) {
                         const veri = snapshot.data();
                         mevcutBakiye = veri.bakiye;
                         alinanlarListesi = veri.alinanlar || [];
-
                         document.getElementById('bakiyeGosterge').innerText = "Bakiye: " + mevcutBakiye + " Puan";
                         koleksiyonuListele();
                     }
                 });
-            } else {
-                window.location.href = 'giris.html';
-            }
+            } else { window.location.href = 'giris.html'; }
         });
 
         function koleksiyonuListele() {
@@ -101,44 +95,32 @@
             alinanlarListesi.forEach(id => {
                 const urun = urunHavuzu[id];
                 if (urun) {
-                    const kartHtml = `
-                        <div class="eser-kart" id="koleksiyon-${id}">
-                            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+                    grid.innerHTML += `
+                        <div class="eser-kart">
+                            <div class="eser-resim" style="background-image: url('${urun.resim}')"></div>
                             <div class="eser-detay">
                                 <h3>${urun.baslik}</h3>
                                 <p>Tasarımcı: @danil</p>
                                 <div class="kart-alt">
-                                    <span class="fiyat">+${urun.fiyat || 30} Puan</span>
-                                    <button class="btn-gerisat" data-id="${id}" data-fiyat="${urun.fiyat || 30}">Geri Sat</button>
+                                    <span class="fiyat">+${urun.fiyat} Puan</span>
+                                    <button class="btn-gerisat" data-id="${id}" data-fiyat="${urun.fiyat}">Geri Sat</button>
                                 </div>
                             </div>
                         </div>
                     `;
-                    grid.innerHTML += kartHtml;
                 }
             });
 
-            document.querySelectorAll('.btn-gerisat').forEach(buton => {
-                buton.addEventListener('click', (e) => {
-                    const id = e.target.getAttribute('data-id');
-                    const fiyat = parseInt(e.target.getAttribute('data-fiyat'));
-                    geriSatIslemi(id, fiyat);
-                });
+            document.querySelectorAll('.btn-gerisat').forEach(btn => {
+                btn.addEventListener('click', (e) => geriSatIslemi(e.target.dataset.id, parseInt(e.target.dataset.fiyat)));
             });
         }
 
         function geriSatIslemi(id, fiyat) {
-            const yeniBakiye = mevcutBakiye + fiyat;
-            const yeniAlinanlar = alinanlarListesi.filter(item => item !== id);
-            const userDoc = doc(db, "kullanicilar", uid);
-
-            updateDoc(userDoc, {
-                bakiye: yeniBakiye,
-                alinanlar: yeniAlinanlar
-            }).then(() => {
-                alert('Eser satıldı, puan veri tabanında güncellendi.');
-                window.location.reload();
-            });
+            updateDoc(doc(db, "kullanicilar", uid), {
+                bakiye: mevcutBakiye + fiyat,
+                alinanlar: alinanlarListesi.filter(item => item !== id)
+            }).then(() => { window.location.reload(); });
         }
     </script>
 </body>
