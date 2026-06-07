@@ -48,7 +48,7 @@
 
     <div class="vitrin">
         <div class="eser-kart" id="kart-arch01">
-            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-resim" style="background-image: url('vest.jpg')"></div>
             <div class="eser-detay">
                 <h3>ARCH_01</h3>
                 <p>Tasarımcı: @danil</p>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="eser-kart" id="kart-vamp">
-            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-resim" style="background-image: url('jacket.jpg')"></div>
             <div class="eser-detay">
                 <h3>VAMP_JACKET</h3>
                 <p>Tasarımcı: @danil</p>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="eser-kart" id="kart-boots">
-            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-resim" style="background-image: url('boots.jpg')"></div>
             <div class="eser-detay">
                 <h3>SABER_BOOTS</h3>
                 <p>Tasarımcı: @danil</p>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="eser-kart" id="kart-hoodie">
-            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-resim" style="background-image: url('hoodie.jpg')"></div>
             <div class="eser-detay">
                 <h3>DARK_HOODIE</h3>
                 <p>Tasarımcı: @danil</p>
@@ -123,28 +123,17 @@
             if (user) {
                 uid = user.uid;
                 const userDoc = doc(db, "kullanicilar", uid);
-                
                 getDoc(userDoc).then((snapshot) => {
                     if (snapshot.exists()) {
                         const veri = snapshot.data();
                         mevcutBakiye = veri.bakiye;
                         alinanlarListesi = veri.alinanlar || [];
-
                         document.getElementById('hosgeldinMetni').innerText = "Hoş Geldin, " + veri.kullaniciAdi;
                         document.getElementById('bakiyeGosterge').innerText = "Bakiye: " + mevcutBakiye + " Puan";
-
-                        alinanlarListesi.forEach(id => {
-                            kartGuncelle(id);
-                        });
-                    } else {
-                        document.getElementById('bakiyeGosterge').innerText = "Hata: Veri bulunamadı.";
+                        alinanlarListesi.forEach(id => kartGuncelle(id));
                     }
-                }).catch(() => {
-                    document.getElementById('bakiyeGosterge').innerText = "Hata: Bağlantı kesildi.";
                 });
-            } else {
-                window.location.href = 'giris.html';
-            }
+            } else { window.location.href = 'giris.html'; }
         });
 
         function kartGuncelle(id) {
@@ -157,24 +146,12 @@
             }
         }
 
-        // Satın alınan ürünleri buluta isme göre kaydetme fonksiyonu
         function urunSatinAl(id, fiyat) {
             if (mevcutBakiye >= fiyat) {
                 if (confirm('Bu eseri satın almayı onaylıyor musunuz?')) {
-                    const yeniBakiye = mevcutBakiye - fiyat;
-                    const userDoc = doc(db, "kullanicilar", uid);
-
-                    updateDoc(userDoc, {
-                        bakiye: yeniBakiye,
-                        alinanlar: arrayUnion(id)
-                    }).then(() => {
-                        alert('Satın alma başarılı! Bulut veritabanı güncellendi.');
-                        window.location.reload();
-                    });
+                    updateDoc(doc(db, "kullanicilar", uid), { bakiye: mevcutBakiye - fiyat, alinanlar: arrayUnion(id) }).then(() => { window.location.reload(); });
                 }
-            } else {
-                alert('Yetersiz bakiye!');
-            }
+            } else { alert('Yetersiz bakiye!'); }
         }
 
         document.getElementById('btn-arch01').addEventListener('click', () => urunSatinAl('arch01', 40));
