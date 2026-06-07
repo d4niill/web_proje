@@ -2,74 +2,46 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>danilArt // Archive</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>danilArt - Hoş Geldiniz</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #0b0f19; color: #f1f5f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; position: relative; }
+        body::before { content: ''; position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, transparent 70%); top: -100px; left: -100px; z-index: 0; }
+        body::after { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255, 51, 102, 0.08) 0%, transparent 70%); bottom: -150px; right: -150px; z-index: 0; }
+        .ana-konteyner { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); padding: 50px 40px; border-radius: 20px; width: 100%; max-width: 550px; text-align: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); z-index: 1; }
+        .logo-alanı { margin-bottom: 35px; }
+        .logo-alanı h1 { font-size: 3rem; font-weight: 900; letter-spacing: 4px; background: linear-gradient(45deg, #00f2fe, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        
+        /* Doğal ve Sert İmza Altı */
+        .yapimci-etiket { display: inline-block; margin-top: 8px; font-size: 0.8rem; font-weight: 700; color: #ff3366; text-transform: uppercase; letter-spacing: 3px; border: 1px solid rgba(255, 51, 102, 0.15); padding: 5px 16px; border-radius: 4px; background: rgba(255, 51, 102, 0.02); }
+        .logo-alanı p { color: #64748b; font-size: 0.95rem; margin-top: 20px; line-height: 1.4; font-weight: 500; }
+        
+        .buton-grubu { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .btn { width: 100%; padding: 15px; border-radius: 8px; font-size: 1rem; font-weight: 700; text-decoration: none; transition: all 0.3s ease; cursor: pointer; display: block; }
+        .btn-ana { background: linear-gradient(45deg, #00f2fe, #4facfe); color: #0b0f19; border: none; }
+        .btn-ana:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4); }
+        .btn-ikincil { background: rgba(30, 41, 59, 0.5); color: #f1f5f9; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .btn-ikincil:hover { background: rgba(30, 41, 59, 0.8); border-color: #00f2fe; color: #00f2fe; }
+        .btn-rapor { background: transparent; color: #475569; border: 1px dashed rgba(255, 255, 255, 0.08); font-size: 0.9rem; font-weight: 600; }
+        .btn-rapor:hover { border-color: #ff3366; color: #ff3366; background: rgba(255, 51, 102, 0.01); }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">danil<span>Art</span></div>
-        <nav>
-            <span class="bakiye-yok">Bakiye için giriş yapın</span>
-            <a href="giris.html" class="nav-link">Giriş Yap</a>
-            <a href="kayit.html" class="btn-kayit">Kayıt Ol</a>
-        </nav>
-    </header>
-
-    <main class="galeri-container">
-        <h2>Dijital Sanat Arşivi</h2>
-        <p class="uyari-metni">Eserleri almak ve 100 Puan hoş geldin kredisi kazanmak için kayıt olun.</p>
-
-        <div class="grid-galeri">
-            <div class="eser-kart">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>ARCH_01</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">40 Puan</span>
-                        <a href="kayit.html" class="btn-satinal">Satın Al</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="eser-kart">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>VAMP_JACKET</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">60 Puan</span>
-                        <a href="kayit.html" class="btn-satinal">Satın Al</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="eser-kart">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>SABER_BOOTS</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">30 Puan</span>
-                        <a href="kayit.html" class="btn-satinal">Satın Al</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="eser-kart">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>DARK_HOODIE</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">50 Puan</span>
-                        <a href="kayit.html" class="btn-satinal">Satın Al</a>
-                    </div>
-                </div>
-            </div>
+    <div class="ana-konteyner">
+        <div class="logo-alanı">
+            <h1>danilArt</h1>
+            <div class="yapimci-etiket">Daniil Zuboriev</div>
+            <p>Bulut veri tabanlı, bağımsız NFT mağazası ve koleksiyon arşivi.</p>
         </div>
-    </main>
+
+        <div class="buton-grubu">
+            <a href="giris.html" class="btn btn-ana">Giriş Yap</a>
+            <a href="kayit.html" class="btn btn-ikincil">Kayıt Ol</a>
+            <a href="hakkinda.html" class="btn btn-rapor">📋 Proje Raporu / Hakkında</a>
+        </div>
+    </div>
 
 </body>
 </html>
