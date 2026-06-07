@@ -2,48 +2,202 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Kayıt Ol // danilArt</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>danilArt - Kayıt Ol</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Arka Plan Efektleri */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, transparent 70%);
+            top: -50px;
+            left: -50px;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 51, 102, 0.1) 0%, transparent 70%);
+            bottom: -100px;
+            right: -100px;
+            z-index: 0;
+        }
+
+        .kayit-konteyner {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .logo-alanı {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-alanı h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .logo-alanı p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .form-grup {
+            margin-bottom: 20px;
+        }
+
+        .form-grup label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .form-grup input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-grup input:focus {
+            outline: none;
+            border-color: #00f2fe;
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        .btn-kayit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            border: none;
+            border-radius: 8px;
+            color: #0b0f19;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn-kayit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+        }
+
+        .btn-kayit:active {
+            transform: translateY(0);
+        }
+
+        .link-alanı {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-alanı a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .link-alanı a:hover {
+            color: #00f2fe;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="form-container">
-        <div class="form-box">
-            <h2>Galeriye Katıl</h2>
-            <p>Hesabını oluştur ve anında 100 Puan hoş geldin kredisi kazan.</p>
-            
-            <form id="kayitForm">
-                <div class="input-grup">
-                    <label>Kullanıcı Adı</label>
-                    <input type="text" id="username" required placeholder="Kullanıcı adınız">
-                </div>
-                <div class="input-grup">
-                    <label>E-Posta Adresi</label>
-                    <input type="email" id="email" required placeholder="ornek@mail.com">
-                </div>
-                <div class="input-grup">
-                    <label>Şifre</label>
-                    <input type="password" id="password" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn-form">Kayıt Ol & Giriş Yap</button>
-                <a href="giris.html" class="link-alt">Zaten hesabın var mı? Giriş Yap</a>
-            </form>
+    <div class="kayit-konteyner">
+        <div class="logo-alanı">
+            <h1>danilArt</h1>
+            <p>Arşiv ve Yeraltı Dünyasına Katıl</p>
+        </div>
+
+        <form id="kayitForm">
+            <div class="form-grup">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" placeholder="Kullanıcı adınızı seçin" required autocomplete="off">
+            </div>
+
+            <div class="form-grup">
+                <label for="email">E-Posta Adresi</label>
+                <input type="email" id="email" placeholder="ornek@mail.com" required autocomplete="off">
+            </div>
+
+            <div class="form-grup">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-kayit">Kayıt Ol & Giriş Yap</button>
+        </form>
+
+        <div class="link-alanı">
+            <a href="giris.html">Zaten hesabın var mı? Giriş Yap</a>
         </div>
     </div>
 
-    <!-- Firebase Script Yapısı -->
+    <!-- Firebase Bağlantı ve Mantık Yapısı -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
+        // Firebase Proje Yapılandırması
         const firebaseConfig = {
             apiKey: "AIzaSyAP9eeyE2up41WHKAU7KFvpOTSzbaPCVtU",
             authDomain: "danilart.firebaseapp.com",
             projectId: "danilart",
             storageBucket: "danilart.firebasestorage.app",
             messagingSenderId: "1074284541500",
-            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539"
+            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539",
+            measurementId: "G-HHVPZV9RYG"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -56,24 +210,28 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
+            // 1. Firebase Auth ile hesabı oluşturuyoruz (Arka planda otomatik giriş tetiklenir)
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    // Kullanıcı bilgilerini buluta ve bakiye olarak 100 puanı Firestore'a yazıyoruz
-                    setDoc(doc(db, "kullanicilar", user.uid), {
+                    
+                    // 2. Hesap açıldığı an Firestore veritabanına kullanıcının adını, 100 puanını ve boş koleksiyon listesini gömüyoruz
+                    return setDoc(doc(db, "kullanicilar", user.uid), {
                         kullaniciAdi: username,
                         bakiye: 100,
                         alinanlar: []
-                    }).then(() => {
-                        alert('Hesap başarıyla oluşturuldu!');
-                        window.location.href = 'panel.html';
                     });
                 })
+                .then(() => {
+                    // 3. Veritabanına yazma işlemi de başarılıysa kullanıcı zaten oturum açmış durumda.
+                    // Hiç bekletmeden veya tekrar giriş sayfasına yollamadan çat diye panele fırlatıyoruz.
+                    alert('Hesabınız başarıyla oluşturuldu ve giriş yapıldı!');
+                    window.location.href = 'panel.html';
+                })
                 .catch((error) => {
-                    alert('Hata: ' + error.message);
+                    alert('Kayıt veya Veritabanı Hatası: ' + error.message);
                 });
         });
     </script>
-
 </body>
 </html>
