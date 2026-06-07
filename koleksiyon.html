@@ -2,33 +2,47 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Geri Satış // danilArt</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>danilArt - Koleksiyonum</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #0b0f19; color: #f1f5f9; min-height: 100vh; padding: 40px 20px; }
+        .ust-bar { max-width: 1200px; margin: 0 auto 40px auto; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 20px 30px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
+        .ust-bar h2 { font-size: 1.5rem; font-weight: 800; color: #00f2fe; }
+        .bakiye-box { background: linear-gradient(45deg, #00f2fe, #4facfe); color: #0b0f19; padding: 8px 16px; border-radius: 20px; font-weight: 700; }
+        .nav-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 8px 16px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.05); color: #fff; border-color: #fff; }
+        
+        .vitrin { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .eser-kart { background: #0f172a; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); overflow: hidden; }
+        .eser-resim { height: 250px; background-size: cover; background-position: center; background-color: #1e293b; }
+        .eser-detay { padding: 20px; }
+        .eser-detay h3 { font-size: 1.2rem; margin-bottom: 5px; color: #fff; }
+        .eser-detay p { color: #64748b; font-size: 0.85rem; margin-bottom: 15px; }
+        .kart-alt { display: flex; justify-content: space-between; align-items: center; }
+        .fiyat { font-weight: 700; color: #ff3366; }
+        
+        .btn-gerisat { background: transparent; border: 1px solid #ff3366; color: #ff3366; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-gerisat:hover { background: #ff3366; color: #fff; }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">danil<span>Art</span></div>
-        <nav>
-            <a href="panel.html" class="nav-link">Galeri</a>
-            <a href="koleksiyon.html" class="nav-link">Geri Satış</a>
-            <span class="bakiye-aktif" id="bakiyeGosterge">Bakiye: Yükleniyor...</span>
-        </nav>
-    </header>
-
-    <main class="galeri-container">
-        <h2>Geri Satış Paneli</h2>
-        <p class="uyari-metni">Sahip olduğunuz eserleri geri satarak bakiyenizi anında iade alabilirsiniz.</p>
-
-        <div class="grid-galeri" id="koleksiyonGrid">
-            <!-- Dinamik bulut listesi buraya gelecek -->
+    <div class="ust-bar">
+        <h2>Koleksiyonun</h2>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="bakiye-box" id="bakiyeGosterge">Bakiye: Yükleniyor...</div>
+            <a href="panel.html" class="nav-btn">Mağazaya Dön</a>
         </div>
-    </main>
+    </div>
+
+    <div class="vitrin" id="koleksiyonGrid">
+        </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAP9eeyE2up41WHKAU7KFvpOTSzbaPCVtU",
@@ -36,7 +50,8 @@
             projectId: "danilart",
             storageBucket: "danilart.firebasestorage.app",
             messagingSenderId: "1074284541500",
-            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539"
+            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539",
+            measurementId: "G-HHVPZV9RYG"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -46,7 +61,7 @@
         const urunHavuzu = {
             'arch01': { baslik: 'ARCH_01', fiyat: 40 },
             'vamp': { baslik: 'VAMP_JACKET', fiyat: 60 },
-            'boots': { baslik: 'SABER_BOOTS', fiyat: 30 },
+            'boots': { baslik: 'SABER_BOOTS', fields: 30 },
             'hoodie': { baslik: 'DARK_HOODIE', fiyat: 50 }
         };
 
@@ -60,6 +75,7 @@
             if (user) {
                 uid = user.uid;
                 const userDoc = doc(db, "kullanicilar", uid);
+                
                 getDoc(userDoc).then((snapshot) => {
                     if (snapshot.exists()) {
                         const veri = snapshot.data();
@@ -78,7 +94,7 @@
         function koleksiyonuListele() {
             grid.innerHTML = "";
             if (alinanlarListesi.length === 0) {
-                grid.innerHTML = '<p style="color: #64748b;">Koleksiyonunuzda henüz satın alınmış parça bulunmuyor.</p>';
+                grid.innerHTML = '<p style="color: #64748b;">Koleksiyonunda henüz eser yok abi.</p>';
                 return;
             }
 
@@ -87,13 +103,13 @@
                 if (urun) {
                     const kartHtml = `
                         <div class="eser-kart" id="koleksiyon-${id}">
-                            <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
                             <div class="eser-detay">
                                 <h3>${urun.baslik}</h3>
                                 <p>Tasarımcı: @danil</p>
                                 <div class="kart-alt">
-                                    <span class="fiyat">+${urun.fiyat} Puan</span>
-                                    <button class="btn-gerisat" data-id="${id}" data-fiyat="${urun.fiyat}">Geri Sat</button>
+                                    <span class="fiyat">+${urun.fiyat || 30} Puan</span>
+                                    <button class="btn-gerisat" data-id="${id}" data-fiyat="${urun.fiyat || 30}">Geri Sat</button>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +118,6 @@
                 }
             });
 
-            // Geri sat butonlarına dinamik event bağlama
             document.querySelectorAll('.btn-gerisat').forEach(buton => {
                 buton.addEventListener('click', (e) => {
                     const id = e.target.getAttribute('data-id');
@@ -114,7 +129,6 @@
 
         function geriSatIslemi(id, fiyat) {
             const yeniBakiye = mevcutBakiye + fiyat;
-            // Güvenli matematik: Listeden sadece o elemanı siliyoruz
             const yeniAlinanlar = alinanlarListesi.filter(item => item !== id);
             const userDoc = doc(db, "kullanicilar", uid);
 
@@ -122,11 +136,10 @@
                 bakiye: yeniBakiye,
                 alinanlar: yeniAlinanlar
             }).then(() => {
-                alert('Eser başarıyla geri satıldı, puanınız iade edildi.');
+                alert('Eser satıldı, puan veri tabanında güncellendi.');
                 window.location.reload();
             });
         }
     </script>
-
 </body>
 </html>
