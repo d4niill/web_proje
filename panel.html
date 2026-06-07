@@ -2,80 +2,104 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Panel // danilArt</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>danilArt - Mağaza Paneli</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #0b0f19; color: #f1f5f9; min-height: 100vh; padding: 40px 20px; }
+        
+        .ust-bar { max-width: 1200px; margin: 0 auto 40px auto; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 20px 30px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
+        .ust-bar h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; color: #4facfe; }
+        .kullanici-bilgi { display: flex; align-items: center; gap: 20px; }
+        .bakiye-box { background: linear-gradient(45deg, #00f2fe, #4facfe); color: #0b0f19; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; }
+        
+        .nav-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; padding: 8px 16px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.05); color: #fff; border-color: #fff; }
+        .cikis-btn { border-color: #ff3366; color: #ff3366; }
+        .cikis-btn:hover { background: rgba(255, 51, 102, 0.1); color: #ff3366; }
+
+        .vitrin { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .eser-kart { background: #0f172a; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+        .eser-kart:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        
+        .eser-kart.satildi { opacity: 0.6; border-color: #ff3366; }
+        .eser-resim { height: 250px; background-size: cover; background-position: center; background-color: #1e293b; }
+        .eser-detay { padding: 20px; }
+        .eser-detay h3 { font-size: 1.2rem; margin-bottom: 5px; color: #fff; letter-spacing: 0.5px; }
+        .eser-detay p { color: #64748b; font-size: 0.85rem; margin-bottom: 15px; }
+        .kart-alt { display: flex; justify-content: space-between; align-items: center; }
+        .fiyat { font-weight: 700; color: #00f2fe; }
+        
+        .btn-satinal { background: transparent; border: 1px solid #00f2fe; color: #00f2fe; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-satinal:hover { background: #00f2fe; color: #0b0f19; }
+        .btn-satinal:disabled { border-color: #ff3366; color: #ff3366; cursor: not-allowed; background: transparent; }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">danil<span>Art</span></div>
-        <nav>
-            <a href="panel.html" class="nav-link">Galeri</a>
-            <a href="koleksiyon.html" class="nav-link">Geri Satış</a>
-            <span class="bakiye-aktif" id="bakiyeGosterge">Bakiye: Yükleniyor...</span>
-            <a href="#" id="cikisButon" class="nav-link" style="color: #ff3366;">Çıkış</a>
-        </nav>
-    </header>
+    <div class="ust-bar">
+        <h2 id="hosgeldinMetni">Hoş Geldin, Yükleniyor...</h2>
+        <div class="kullanici-bilgi">
+            <div class="bakiye-box" id="bakiyeGosterge">Bakiye: Yükleniyor...</div>
+            <a href="koleksiyon.html" class="nav-btn">Koleksiyonum</a>
+            <button id="cikisButon" class="nav-btn cikis-btn">Çıkış Yap</button>
+        </div>
+    </div>
 
-    <main class="galeri-container">
-        <h2 id="hosgeldinMetni">Hoş Geldin</h2>
-        <p class="uyari-metni">Bakiyeni harcayarak arşivi genişlet. Satın alınan ürünler koleksiyonuna eklenir.</p>
-
-        <div class="grid-galeri">
-            <div class="eser-kart" id="kart-arch01">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>ARCH_01</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">40 Puan</span>
-                        <button class="btn-satinal" id="btn-arch01">Satın Al</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="eser-kart" id="kart-vamp">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>VAMP_JACKET</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">60 Puan</span>
-                        <button class="btn-satinal" id="btn-vamp">Satın Al</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="eser-kart" id="kart-boots">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>SABER_BOOTS</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">30 Puan</span>
-                        <button class="btn-satinal" id="btn-boots">Satın Al</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="eser-kart" id="kart-hoodie">
-                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
-                <div class="eser-detay">
-                    <h3>DARK_HOODIE</h3>
-                    <p>Tasarımcı: @danil</p>
-                    <div class="kart-alt">
-                        <span class="fiyat">50 Puan</span>
-                        <button class="btn-satinal" id="btn-hoodie">Satın Al</button>
-                    </div>
+    <div class="vitrin">
+        <div class="eser-kart" id="kart-arch01">
+            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-detay">
+                <h3>ARCH_01</h3>
+                <p>Tasarımcı: @danil</p>
+                <div class="kart-alt">
+                    <span class="fiyat">40 Puan</span>
+                    <button class="btn-satinal" id="btn-arch01">Satın Al</button>
                 </div>
             </div>
         </div>
-    </main>
+
+        <div class="eser-kart" id="kart-vamp">
+            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-detay">
+                <h3>VAMP_JACKET</h3>
+                <p>Tasarımcı: @danil</p>
+                <div class="kart-alt">
+                    <span class="fiyat">60 Puan</span>
+                    <button class="btn-satinal" id="btn-vamp">Satın Al</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="eser-kart" id="kart-boots">
+            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-detay">
+                <h3>SABER_BOOTS</h3>
+                <p>Tasarımcı: @danil</p>
+                <div class="kart-alt">
+                    <span class="fiyat">30 Puan</span>
+                    <button class="btn-satinal" id="btn-boots">Satın Al</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="eser-kart" id="kart-hoodie">
+            <div class="eser-resim" style="background-image: url('13295.jpg')"></div>
+            <div class="eser-detay">
+                <h3>DARK_HOODIE</h3>
+                <p>Tasarımcı: @danil</p>
+                <div class="kart-alt">
+                    <span class="fiyat">50 Puan</span>
+                    <button class="btn-satinal" id="btn-hoodie">Satın Al</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAP9eeyE2up41WHKAU7KFvpOTSzbaPCVtU",
@@ -83,7 +107,8 @@
             projectId: "danilart",
             storageBucket: "danilart.firebasestorage.app",
             messagingSenderId: "1074284541500",
-            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539"
+            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539",
+            measurementId: "G-HHVPZV9RYG"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -98,6 +123,7 @@
             if (user) {
                 uid = user.uid;
                 const userDoc = doc(db, "kullanicilar", uid);
+                
                 getDoc(userDoc).then((snapshot) => {
                     if (snapshot.exists()) {
                         const veri = snapshot.data();
@@ -107,11 +133,14 @@
                         document.getElementById('hosgeldinMetni').innerText = "Hoş Geldin, " + veri.kullaniciAdi;
                         document.getElementById('bakiyeGosterge').innerText = "Bakiye: " + mevcutBakiye + " Puan";
 
-                        // Alınanları işaretle
                         alinanlarListesi.forEach(id => {
                             kartGuncelle(id);
                         });
+                    } else {
+                        document.getElementById('bakiyeGosterge').innerText = "Hata: Veri bulunamadı.";
                     }
+                }).catch(() => {
+                    document.getElementById('bakiyeGosterge').innerText = "Hata: Bağlantı kesildi.";
                 });
             } else {
                 window.location.href = 'giris.html';
@@ -125,11 +154,10 @@
                 kart.classList.add('satildi');
                 btn.innerText = "Alındı";
                 btn.disabled = true;
-                btn.style.borderColor = "#ff3366";
-                btn.style.color = "#ff3366";
             }
         }
 
+        // Satın alınan ürünleri buluta isme göre kaydetme fonksiyonu
         function urunSatinAl(id, fiyat) {
             if (mevcutBakiye >= fiyat) {
                 if (confirm('Bu eseri satın almayı onaylıyor musunuz?')) {
@@ -140,16 +168,15 @@
                         bakiye: yeniBakiye,
                         alinanlar: arrayUnion(id)
                     }).then(() => {
-                        alert('Satın alma başarılı!');
+                        alert('Satın alma başarılı! Bulut veritabanı güncellendi.');
                         window.location.reload();
                     });
                 }
             } else {
-                alert('Yetersiz bakiye! Lütfen elinizdeki eserleri geri satın.');
+                alert('Yetersiz bakiye!');
             }
         }
 
-        // Event listener bağlama (Statik HTML onClick güvenlik açıklarını engellemek için)
         document.getElementById('btn-arch01').addEventListener('click', () => urunSatinAl('arch01', 40));
         document.getElementById('btn-vamp').addEventListener('click', () => urunSatinAl('vamp', 60));
         document.getElementById('btn-boots').addEventListener('click', () => urunSatinAl('boots', 30));
@@ -159,6 +186,5 @@
             signOut(auth).then(() => { window.location.href = 'index.html'; });
         });
     </script>
-
 </body>
 </html>
