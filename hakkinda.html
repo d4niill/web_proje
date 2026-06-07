@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>danilArt - Proje Hakkında</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #0b0f19; color: #f1f5f9; min-height: 100vh; padding: 40px 20px; display: flex; justify-content: center; align-items: center; }
+        .rapor-konteyner { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); padding: 35px; border-radius: 16px; width: 100%; max-width: 650px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
+        .baslik-alani { border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; margin-bottom: 25px; }
+        .baslik-alani h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; background: linear-gradient(45deg, #00f2fe, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .baslik-alani p { color: #64748b; font-size: 0.9rem; margin-top: 5px; }
+        .bolum { margin-bottom: 20px; }
+        .bolum h3 { color: #00f2fe; font-size: 1rem; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
+        .ozellik-listesi { list-style: none; }
+        .ozellik-listesi li { position: relative; padding-left: 20px; margin-bottom: 8px; color: #cbd5e1; font-size: 0.9rem; line-height: 1.4; }
+        .ozellik-listesi li::before { content: '▪'; position: absolute; left: 0; color: #ff3366; }
+        
+        /* Aşağıya Alınan ve Gizlenen Sade Teknolojiler */
+        .teknolojiler-alt { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #475569; font-size: 0.8rem; line-height: 1.5; }
+        
+        .nav-alani { margin-top: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-don { background: linear-gradient(45deg, #00f2fe, #4facfe); color: #0b0f19; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.2s; }
+        .btn-don:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3); }
+    </style>
+</head>
+<body>
+
+    <div class="rapor-konteyner">
+        <div class="baslik-alani">
+            <h1>Proje Detayları</h1>
+            <p>danilArt — Canlı Veri Akışlı Arayüz</p>
+        </div>
+
+        <div class="bolum">
+            <h3>Çalışan Fonksiyonlar</h3>
+            <ul class="ozellik-listesi">
+                <li><strong>Giriş & Kayıt Entegrasyonu:</strong> Hesap açıldığı saniyede oturum arka planda otomatik tetiklenir ve kullanıcı doğrudan panele yönlendirilir.</li>
+                <li><strong>Gerçek Zamanlı Veri Tabanı:</strong> Yeni kayıt olan her profil için veri tabanında otomatik 100 Puan bakiye alanı ve kullanıcı adı dökümanı oluşturulur.</li>
+                <li><strong>Kalıcı Profil Hafızası:</strong> Panelden edinilen her ögenin ID bilgisi buluttaki listeye işlenir. Oturum kapatılsa dahi veriler kullanıcı bazlı kilitli kalır.</li>
+                <li><strong>Anlık Senkronizasyon:</strong> Alışveriş yapıldıkça bakiye düşer; "Koleksiyonum" ekranından iade yapıldığında ise puan bulut üzerinde anlık olarak güncellenir.</li>
+            </ul>
+        </div>
+
+        <!-- Dikkat çekmeyen sade teknoloji alt alanı -->
+        <div class="teknolojiler-alt">
+            <strong>Alt Yapı:</strong> HTML5, CSS3, JavaScript (Modules), Firebase Auth, Cloud Firestore, GitHub Pages.
+        </div>
+
+        <div class="nav-alani">
+            <span style="color: #64748b; font-size: 0.85rem; font-weight: 600;">Geliştirici: danil</span>
+            <a href="index.html" class="btn-don">Ana Sayfaya Dön</a>
+        </div>
+    </div>
+
+</body>
+</html>
