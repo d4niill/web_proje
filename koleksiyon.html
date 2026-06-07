@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Geri Satış // danilArt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">danil<span>Art</span></div>
+        <nav>
+            <a href="panel.html" class="nav-link">Galeri</a>
+            <a href="koleksiyon.html" class="nav-link">Geri Satış</a>
+            <span class="bakiye-aktif" id="bakiyeGosterge">Bakiye: Yükleniyor...</span>
+        </nav>
+    </header>
+
+    <main class="galeri-container">
+        <h2>Geri Satış Paneli</h2>
+        <p class="uyari-metni">Sahip olduğunuz eserleri geri satarak bakiyenizi anında iade alabilirsiniz.</p>
+
+        <div class="grid-galeri" id="koleksiyonGrid">
+            <!-- Dinamik bulut listesi buraya gelecek -->
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP9eeyE2up41WHKAU7KFvpOTSzbaPCVtU",
+            authDomain: "danilart.firebaseapp.com",
+            projectId: "danilart",
+            storageBucket: "danilart.firebasestorage.app",
+            messagingSenderId: "1074284541500",
+            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const urunHavuzu = {
+            'arch01': { baslik: 'ARCH_01', fiyat: 40 },
+            'vamp': { baslik: 'VAMP_JACKET', fiyat: 60 },
+            'boots': { baslik: 'SABER_BOOTS', fiyat: 30 },
+            'hoodie': { baslik: 'DARK_HOODIE', fiyat: 50 }
+        };
+
+        let mevcutBakiye = 0;
+        let alinanlarListesi = [];
+        let uid = "";
+
+        const grid = document.getElementById('koleksiyonGrid');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                uid = user.uid;
+                const userDoc = doc(db, "kullanicilar", uid);
+                getDoc(userDoc).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const veri = snapshot.data();
+                        mevcutBakiye = veri.bakiye;
+                        alinanlarListesi = veri.alinanlar || [];
+
+                        document.getElementById('bakiyeGosterge').innerText = "Bakiye: " + mevcutBakiye + " Puan";
+                        koleksiyonuListele();
+                    }
+                });
+            } else {
+                window.location.href = 'giris.html';
+            }
+        });
+
+        function koleksiyonuListele() {
+            grid.innerHTML = "";
+            if (alinanlarListesi.length === 0) {
+                grid.innerHTML = '<p style="color: #64748b;">Koleksiyonunuzda henüz satın alınmış parça bulunmuyor.</p>';
+                return;
+            }
+
+            alinanlarListesi.forEach(id => {
+                const urun = urunHavuzu[id];
+                if (urun) {
+                    const kartHtml = `
+                        <div class="eser-kart" id="koleksiyon-${id}">
+                            <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                            <div class="eser-detay">
+                                <h3>${urun.baslik}</h3>
+                                <p>Tasarımcı: @danil</p>
+                                <div class="kart-alt">
+                                    <span class="fiyat">+${urun.fiyat} Puan</span>
+                                    <button class="btn-gerisat" data-id="${id}" data-fiyat="${urun.fiyat}">Geri Sat</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    grid.innerHTML += kartHtml;
+                }
+            });
+
+            // Geri sat butonlarına dinamik event bağlama
+            document.querySelectorAll('.btn-gerisat').forEach(buton => {
+                buton.addEventListener('click', (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    const fiyat = parseInt(e.target.getAttribute('data-fiyat'));
+                    geriSatIslemi(id, fiyat);
+                });
+            });
+        }
+
+        function geriSatIslemi(id, fiyat) {
+            const yeniBakiye = mevcutBakiye + fiyat;
+            // Güvenli matematik: Listeden sadece o elemanı siliyoruz
+            const yeniAlinanlar = alinanlarListesi.filter(item => item !== id);
+            const userDoc = doc(db, "kullanicilar", uid);
+
+            updateDoc(userDoc, {
+                bakiye: yeniBakiye,
+                alinanlar: yeniAlinanlar
+            }).then(() => {
+                alert('Eser başarıyla geri satıldı, puanınız iade edildi.');
+                window.location.reload();
+            });
+        }
+    </script>
+
+</body>
+</html>

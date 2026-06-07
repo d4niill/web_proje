@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Yap // danilArt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form-box">
+            <h2>Arşive Giriş</h2>
+            <p>Koleksiyonuna ve kalan bakiyene erişmek için giriş yap.</p>
+            
+            <form id="girisForm">
+                <div class="input-grup">
+                    <label>E-Posta Adresi</label>
+                    <input type="email" id="email" required placeholder="ornek@mail.com">
+                </div>
+                <div class="input-grup">
+                    <label>Şifre</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-form">Giriş Yap</button>
+                <a href="kayit.html" class="link-alt">Hesabın yok mu? Yeni Hesap Aç</a>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP9eeyE2up41WHKAU7KFvpOTSzbaPCVtU",
+            authDomain: "danilart.firebaseapp.com",
+            projectId: "danilart",
+            storageBucket: "danilart.firebasestorage.app",
+            messagingSenderId: "1074284541500",
+            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('girisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    alert('Giriş başarılı!');
+                    window.location.href = 'panel.html';
+                })
+                .catch((error) => {
+                    alert('Hata: Giriş bilgileri hatalı! ' + error.message);
+                });
+        });
+    </script>
+
+</body>
+</html>

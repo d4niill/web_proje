@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kayıt Ol // danilArt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form-box">
+            <h2>Galeriye Katıl</h2>
+            <p>Hesabını oluştur ve anında 100 Puan hoş geldin kredisi kazan.</p>
+            
+            <form id="kayitForm">
+                <div class="input-grup">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="username" required placeholder="Kullanıcı adınız">
+                </div>
+                <div class="input-grup">
+                    <label>E-Posta Adresi</label>
+                    <input type="email" id="email" required placeholder="ornek@mail.com">
+                </div>
+                <div class="input-grup">
+                    <label>Şifre</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-form">Kayıt Ol & Giriş Yap</button>
+                <a href="giris.html" class="link-alt">Zaten hesabın var mı? Giriş Yap</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Script Yapısı -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP9eeyE2up41WHKAU7KFvpOTSzbaPCVtU",
+            authDomain: "danilart.firebaseapp.com",
+            projectId: "danilart",
+            storageBucket: "danilart.firebasestorage.app",
+            messagingSenderId: "1074284541500",
+            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        document.getElementById('kayitForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    // Kullanıcı bilgilerini buluta ve bakiye olarak 100 puanı Firestore'a yazıyoruz
+                    setDoc(doc(db, "kullanicilar", user.uid), {
+                        kullaniciAdi: username,
+                        bakiye: 100,
+                        alinanlar: []
+                    }).then(() => {
+                        alert('Hesap başarıyla oluşturuldu!');
+                        window.location.href = 'panel.html';
+                    });
+                })
+                .catch((error) => {
+                    alert('Hata: ' + error.message);
+                });
+        });
+    </script>
+
+</body>
+</html>

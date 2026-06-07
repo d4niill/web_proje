@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel // danilArt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">danil<span>Art</span></div>
+        <nav>
+            <a href="panel.html" class="nav-link">Galeri</a>
+            <a href="koleksiyon.html" class="nav-link">Geri Satış</a>
+            <span class="bakiye-aktif" style="border-color: #ff3366; color: #ff3366;">Bakiye: 60 Puan</span>
+        </nav>
+    </header>
+
+    <main class="galeri-container">
+        <h2 style="color: #00f0ff;">Satın Alma Başarılı!</h2>
+        <p class="uyari-metni">Eser koleksiyonunuza eklendi, 40 Puan bakiyenizden düşüldü.</p>
+
+        <div class="grid-galeri">
+            <div class="eser-kart" style="opacity: 0.4;">
+                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                <div class="eser-detay">
+                    <h3>ARCH_01</h3>
+                    <p>Tasarımcı: @danil</p>
+                    <div class="kart-alt">
+                        <span style="color: #ff3366; font-weight: bold;">Koleksiyonunuzda</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eser-kart">
+                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                <div class="eser-detay">
+                    <h3>VAMP_JACKET</h3>
+                    <p>Tasarımcı: @danil</p>
+                    <div class="kart-alt">
+                        <span class="fiyat">60 Puan</span>
+                        <a href="#" onclick="alert('Yetersiz bakiye! Lütfen elinizdeki eserleri geri satın.')" class="btn-satinal" style="border-color: #ff3366; color: #ff3366;">Bakiye Yetersiz</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel // danilArt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">danil<span>Art</span></div>
+        <nav>
+            <a href="panel.html" class="nav-link">Galeri</a>
+            <a href="koleksiyon.html" class="nav-link">Geri Satış</a>
+            <span class="bakiye-aktif" id="bakiyeGosterge">Bakiye: Yükleniyor...</span>
+            <a href="#" id="cikisButon" class="nav-link" style="color: #ff3366;">Çıkış</a>
+        </nav>
+    </header>
+
+    <main class="galeri-container">
+        <h2 id="hosgeldinMetni">Hoş Geldin</h2>
+        <p class="uyari-metni">Bakiyeni harcayarak arşivi genişlet. Satın alınan ürünler koleksiyonuna eklenir.</p>
+
+        <div class="grid-galeri">
+            <div class="eser-kart" id="kart-arch01">
+                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                <div class="eser-detay">
+                    <h3>ARCH_01</h3>
+                    <p>Tasarımcı: @danil</p>
+                    <div class="kart-alt">
+                        <span class="fiyat">40 Puan</span>
+                        <button class="btn-satinal" id="btn-arch01">Satın Al</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eser-kart" id="kart-vamp">
+                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                <div class="eser-detay">
+                    <h3>VAMP_JACKET</h3>
+                    <p>Tasarımcı: @danil</p>
+                    <div class="kart-alt">
+                        <span class="fiyat">60 Puan</span>
+                        <button class="btn-satinal" id="btn-vamp">Satın Al</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eser-kart" id="kart-boots">
+                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                <div class="eser-detay">
+                    <h3>SABER_BOOTS</h3>
+                    <p>Tasarımcı: @danil</p>
+                    <div class="kart-alt">
+                        <span class="fiyat">30 Puan</span>
+                        <button class="btn-satinal" id="btn-boots">Satın Al</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eser-kart" id="kart-hoodie">
+                <div class="eser-resim" style="background-image: url('BURAYA_RESİM_LİNKİ_GELECEK')"></div>
+                <div class="eser-detay">
+                    <h3>DARK_HOODIE</h3>
+                    <p>Tasarımcı: @danil</p>
+                    <div class="kart-alt">
+                        <span class="fiyat">50 Puan</span>
+                        <button class="btn-satinal" id="btn-hoodie">Satın Al</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP9eeyE2up41WHKAU7KFvpOTSzbaPCVtU",
+            authDomain: "danilart.firebaseapp.com",
+            projectId: "danilart",
+            storageBucket: "danilart.firebasestorage.app",
+            messagingSenderId: "1074284541500",
+            appId: "1:1074284541500:web:1e38ff7c8d69d45efd3539"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let mevcutBakiye = 0;
+        let alinanlarListesi = [];
+        let uid = "";
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                uid = user.uid;
+                const userDoc = doc(db, "kullanicilar", uid);
+                getDoc(userDoc).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const veri = snapshot.data();
+                        mevcutBakiye = veri.bakiye;
+                        alinanlarListesi = veri.alinanlar || [];
+
+                        document.getElementById('hosgeldinMetni').innerText = "Hoş Geldin, " + veri.kullaniciAdi;
+                        document.getElementById('bakiyeGosterge').innerText = "Bakiye: " + mevcutBakiye + " Puan";
+
+                        // Alınanları işaretle
+                        alinanlarListesi.forEach(id => {
+                            kartGuncelle(id);
+                        });
+                    }
+                });
+            } else {
+                window.location.href = 'giris.html';
+            }
+        });
+
+        function kartGuncelle(id) {
+            const kart = document.getElementById('kart-' + id);
+            const btn = document.getElementById('btn-' + id);
+            if (kart && btn) {
+                kart.classList.add('satildi');
+                btn.innerText = "Alındı";
+                btn.disabled = true;
+                btn.style.borderColor = "#ff3366";
+                btn.style.color = "#ff3366";
+            }
+        }
+
+        function urunSatinAl(id, fiyat) {
+            if (mevcutBakiye >= fiyat) {
+                if (confirm('Bu eseri satın almayı onaylıyor musunuz?')) {
+                    const yeniBakiye = mevcutBakiye - fiyat;
+                    const userDoc = doc(db, "kullanicilar", uid);
+
+                    updateDoc(userDoc, {
+                        bakiye: yeniBakiye,
+                        alinanlar: arrayUnion(id)
+                    }).then(() => {
+                        alert('Satın alma başarılı!');
+                        window.location.reload();
+                    });
+                }
+            } else {
+                alert('Yetersiz bakiye! Lütfen elinizdeki eserleri geri satın.');
+            }
+        }
+
+        // Event listener bağlama (Statik HTML onClick güvenlik açıklarını engellemek için)
+        document.getElementById('btn-arch01').addEventListener('click', () => urunSatinAl('arch01', 40));
+        document.getElementById('btn-vamp').addEventListener('click', () => urunSatinAl('vamp', 60));
+        document.getElementById('btn-boots').addEventListener('click', () => urunSatinAl('boots', 30));
+        document.getElementById('btn-hoodie').addEventListener('click', () => urunSatinAl('hoodie', 50));
+
+        document.getElementById('cikisButon').addEventListener('click', () => {
+            signOut(auth).then(() => { window.location.href = 'index.html'; });
+        });
+    </script>
+
+</body>
+</html>
